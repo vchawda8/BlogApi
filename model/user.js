@@ -20,7 +20,7 @@ var registerUser = (user) => {
 			})
 			.catch((e) => {
 				reject(e);
-			})
+			});
 	});
 }
 
@@ -43,6 +43,7 @@ var loginUser = (user) => {
 				}
 
 				if (bcrypt.compareSync(user.password, result.password)) {
+					
 					resolve(result);
 				} else {
 					reject({
