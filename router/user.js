@@ -1,4 +1,9 @@
-//code author Vishal Chawda
+/**
+ * @author Vishal Chawda
+ * 
+ * file is responsible to registering route and sending response to the client 
+ * only communicates with controller
+ */
 
 //getting controllers
 const userController = require('./../controller/user');

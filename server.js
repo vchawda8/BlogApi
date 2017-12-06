@@ -1,4 +1,8 @@
-/* Code Author Vishal Chawda */
+/**
+ * @author Vishal Chawda
+ * 
+ * main server file which is responsible for starting server and listening to the client request
+ */
 'use strict';
 
 const Hapi = require('hapi');
