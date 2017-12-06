@@ -5,6 +5,8 @@
  * only communicates with controller
  */
 
+const Joi = require('joi');
+
 //getting controllers
 const userController = require('./../controller/user');
 
@@ -12,32 +14,43 @@ const userController = require('./../controller/user');
 const userRoutes = [{
 	method: 'POST',
 	path: '/users/register',
-	handler: (request, reply) => {
-		if (!request.payload.user) {
-			return reply.response({
-				error: "invalid input"
-			}).code(400);
+	config: {
+		validate: {
+			payload: Joi.object({
+				user: Joi.object({
+					email: Joi.required(),
+					fullName: Joi.required(),
+					password: Joi.string().alphanum().min(6).required()
+				})
+			}).allow(null)
+		},
+		handler: (request, reply) => {
+			return userController.register(request.payload.user, reply);
 		}
-		return userController.register(request.payload.user, reply);
 	}
 }, {
 	method: 'POST',
 	path: '/users/login',
-	handler: (request, reply) => {
-		if (!request.payload.user) {
-			return reply.response({
-				error: "invalid input"
-			}).code(400);
+	config: {
+		validate: {
+			payload: Joi.object({
+				user: Joi.object({
+					email: Joi.required(),
+					password: Joi.required()
+				})
+			}).allow(null)
+		},
+		handler: (request, reply) => {
+			return userController.login(request.payload.user, reply);
 		}
-		return userController.login(request.payload.user, reply);
 	}
 }, {
 	method: 'GET',
 	path: '/users/logout',
 	handler: (request, reply) => {
-		if (!request.payload.user) {
+		if (!request.header['x-auth']) {
 			return reply.response({
-				error: "invalid input"
+				error: "invalid request"
 			}).code(400);
 		}
 		return userController.register(request.payload.user, reply);

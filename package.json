@@ -13,6 +13,7 @@
     "expect": "^21.2.1",
     "hapi": "^17.1.1",
     "inert": "^5.0.1",
+    "joi": "^13.0.2",
     "mongoose": "^4.13.6"
   },
   "devDependencies": {
