@@ -43,7 +43,7 @@ var loginUser = (user) => {
 				}
 
 				if (bcrypt.compareSync(user.password, result.password)) {
-					
+					//assign a token to user
 					resolve(result);
 				} else {
 					reject({
