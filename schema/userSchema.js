@@ -1,6 +1,6 @@
 /**
  * @author Vishal Chawda
- * 
+ *
  * file contains schema for user document and also provides validation for the same
  */
 
@@ -15,11 +15,14 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
+        trim: true,
+        minlength: 1,
         unique: true,
-        validate: [{
+        validate: {
+            isAsync: false,
             validator: value => isEmail(value),
-            msg: 'Invalid email.'
-        }]
+            message: '{VALUE} is not a valid email'
+        }
     },
     password: {
         type: String,
