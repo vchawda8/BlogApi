@@ -29,6 +29,19 @@ var register = (user, reply) => {
         });
 };
 
+var login = (user, reply) => {
+    return User.loginUser(user)
+        .then((result) => {
+            return reply.response(result);
+        })
+        .catch((e) => {
+            return reply.response({
+                error: e.message
+            }).code(400);
+        });
+};
+
 module.exports = {
-    register
+    register,
+    login
 };
