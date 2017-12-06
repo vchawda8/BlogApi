@@ -1,6 +1,6 @@
 /**
  * @author Vishal Chawda
- * 
+ *
  * controller for user related actions
  * register
  * login
@@ -18,30 +18,41 @@ const User = require('./../model/user');
  *
  */
 var register = (user, reply) => {
-    return User.registerUser(user)
-        .then((result) => {
-            return reply.response(result);
-        })
-        .catch((e) => {
-            return reply.response({
-                error: e.message
-            }).code(400);
-        });
+	return User.registerUser(user)
+		.then((result) => {
+			return reply.response(result);
+		})
+		.catch((e) => {
+			return reply.response({
+				error: e.message
+			}).code(400);
+		});
 };
 
+/**
+ * for checking if a user exist and log them in if password matches
+ *
+ * @param {*} user
+ * @param {*} reply
+ */
 var login = (user, reply) => {
-    return User.loginUser(user)
-        .then((result) => {
-            return reply.response(result);
-        })
-        .catch((e) => {
-            return reply.response({
-                error: e.message
-            }).code(400);
-        });
+	return User.loginUser(user)
+		.then((result) => {
+			return reply.response({
+				user: {
+					id: result._id,
+					fullName: result.fullName
+				}
+			}).header('x-auth',"some authentication token");
+		})
+		.catch((e) => {
+			return reply.response({
+				error: e.message
+			}).code(400);
+		});
 };
 
 module.exports = {
-    register,
-    login
+	register,
+	login
 };
