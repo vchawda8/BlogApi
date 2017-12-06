@@ -4,9 +4,6 @@
  * file contains schema for user document and also provides validation for the same
  */
 
-//require 3rd party modules or inbuilt once
-const validator = require('validator');
-
 //including pre connected mongoose model
 const mongoose = require('./dbConfig');
 
@@ -18,11 +15,10 @@ const userSchema = mongoose.Schema({
 		trim: true,
 		minlength: 1,
 		unique: true,
-		validate: {
-			isAsync: false,
-			validator: value => isEmail(value),
-			message: '{VALUE} is not a valid email'
-		}
+		validate:
+			(value) => {
+				return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+			}
 	},
 	password: {
 		type: String,

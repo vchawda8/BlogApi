@@ -25,7 +25,7 @@ var register = (user, reply) => {
 		.catch((e) => {
 			return reply.response({
 				error: e.message
-			}).code(400);
+			}).code(422);
 		});
 };
 
@@ -43,12 +43,12 @@ var login = (user, reply) => {
 					id: result._id,
 					fullName: result.fullName
 				}
-			}).header('x-auth',"some authentication token");
+			}).header('x-auth', "some authentication token");
 		})
 		.catch((e) => {
 			return reply.response({
-				error: e.message
-			}).code(400);
+				error: e
+			}).code(401);
 		});
 };
 
