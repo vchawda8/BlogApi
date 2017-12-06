@@ -20,7 +20,7 @@ const userRoutes = [{
 				user: Joi.object({
 					email: Joi.required(),
 					fullName: Joi.required(),
-					password: Joi.string().alphanum().min(6).required()
+					password: Joi.string().min(6).required()
 				})
 			}).allow(null)
 		},
@@ -36,7 +36,7 @@ const userRoutes = [{
 			payload: Joi.object({
 				user: Joi.object({
 					email: Joi.required(),
-					password: Joi.required()
+					password: Joi.string().min(6).required()
 				})
 			}).allow(null)
 		},
