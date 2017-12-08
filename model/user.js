@@ -18,13 +18,7 @@ var registerUser = (user) => {
 		newUser.save()
 			.then((result) => {
 				var token = getToken(result._id);
-				result.tokens.push({
-					token,
-					access: 'auth'
-				});
-				result.save().then((data) => {
-					resolve([result, token]);
-				});
+				resolve([result, token]);
 			})
 			.catch((e) => {
 				reject(e);
@@ -52,13 +46,7 @@ var loginUser = (user) => {
 
 				if (bcrypt.compareSync(user.password, result.password)) {
 					var token = getToken(result._id);
-					result.tokens.push({
-						token,
-						access: 'auth'
-					});
-					result.save().then((data) => {
-						resolve([result, token]);
-					});
+					resolve([result, token]);
 				} else {
 					reject({
 						error: "username or password do not match"
@@ -77,6 +65,17 @@ var getToken = (userId) => {
 		id: userId,
 		access: 'auth'
 	}, 'abc123');
+	return User.findById({
+		userId
+	}).then((result) => {
+		result.tokens.push({
+			token,
+			access: 'auth'
+		});
+		result.save().then((data) => {
+			return token;
+		});
+	});
 }
 
 module.exports = {
