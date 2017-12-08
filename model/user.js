@@ -6,6 +6,7 @@
 
 //require 3rd party modules or inbuilt once
 const bcrypt = require('bcrypt');
+const Jwt = require('jsonwebtoken');
 
 //require user schema
 const User = require('./../schema/userSchema');
@@ -43,8 +44,14 @@ var loginUser = (user) => {
 				}
 
 				if (bcrypt.compareSync(user.password, result.password)) {
-					//assign a token to user
-					resolve(result);
+					var token = getToken(result._id);
+					result.tokens.push({
+						token,
+						access: 'auth'
+					});
+					result.save().then((data) => {
+						resolve(result);
+					});
 				} else {
 					reject({
 						error: "username or password do not match"
@@ -56,6 +63,13 @@ var loginUser = (user) => {
 				reject(e);
 			});
 	});
+}
+
+var getToken = (userId) => {
+	return Jwt.sign({
+		id: userId,
+		access: 'auth'
+	}, 'abc123');
 }
 
 module.exports = {
