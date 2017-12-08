@@ -7,6 +7,7 @@
 'use strict';
 
 const Hapi = require('hapi');
+const jwt = require('hapi-auth-jwt2');
 
 const routes = require('./router/routerConfig');
 

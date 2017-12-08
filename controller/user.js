@@ -40,10 +40,10 @@ var login = (user, reply) => {
 		.then((result) => {
 			return reply.response({
 				user: {
-					id: result._id,
-					fullName: result.fullName
+					id: result[0]._id,
+					fullName: result[0].fullName
 				}
-			}).header('x-auth', "some authentication token");
+			}).header('x-auth', result[1]);
 		})
 		.catch((e) => {
 			return reply.response({

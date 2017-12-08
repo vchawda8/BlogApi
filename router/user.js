@@ -23,10 +23,10 @@ const userRoutes = [{
 					password: Joi.string().min(6).required()
 				})
 			}).allow(null)
-		},
-		handler: (request, reply) => {
-			return userController.register(request.payload.user, reply);
 		}
+	},
+	handler: (request, reply) => {
+		return userController.register(request.payload.user, reply);
 	}
 }, {
 	method: 'POST',
@@ -39,10 +39,10 @@ const userRoutes = [{
 					password: Joi.string().min(6).required()
 				})
 			}).allow(null)
-		},
-		handler: (request, reply) => {
-			return userController.login(request.payload.user, reply);
 		}
+	},
+	handler: (request, reply) => {
+		return userController.login(request.payload.user, reply);
 	}
 }, {
 	method: 'GET',

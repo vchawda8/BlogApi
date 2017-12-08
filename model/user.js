@@ -17,7 +17,14 @@ var registerUser = (user) => {
 		var newUser = new User(user);
 		newUser.save()
 			.then((result) => {
-				resolve(result);
+				var token = getToken(result._id);
+				result.tokens.push({
+					token,
+					access: 'auth'
+				});
+				result.save().then((data) => {
+					resolve([result, token]);
+				});
 			})
 			.catch((e) => {
 				reject(e);
@@ -50,7 +57,7 @@ var loginUser = (user) => {
 						access: 'auth'
 					});
 					result.save().then((data) => {
-						resolve(result);
+						resolve([result, token]);
 					});
 				} else {
 					reject({
