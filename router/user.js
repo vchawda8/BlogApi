@@ -1,7 +1,6 @@
 /**
  * @author Vishal Chawda
- *
- * file is responsible to registering route and sending response to the client
+ * @description file is responsible to registering route and sending response to the client
  * only communicates with controller
  */
 
@@ -13,12 +12,12 @@ const userController = require('./../controller/user');
 //defining all routes for user
 const userRoutes = [{
 	method: 'POST',
-	path: '/users/register',
+	path  : '/users/register',
 	config: {
 		validate: {
 			payload: Joi.object({
 				user: Joi.object({
-					email: Joi.required(),
+					email   : Joi.required(),
 					fullName: Joi.required(),
 					password: Joi.string().min(6).required()
 				})
@@ -30,12 +29,12 @@ const userRoutes = [{
 	}
 }, {
 	method: 'POST',
-	path: '/users/login',
+	path  : '/users/login',
 	config: {
 		validate: {
 			payload: Joi.object({
 				user: Joi.object({
-					email: Joi.required(),
+					email   : Joi.required(),
 					password: Joi.string().min(6).required()
 				})
 			}).allow(null)
@@ -45,8 +44,8 @@ const userRoutes = [{
 		return userController.login(request.payload.user, reply);
 	}
 }, {
-	method: 'GET',
-	path: '/users/logout',
+	method : 'GET',
+	path   : '/users/logout',
 	handler: (request, reply) => {
 		if (!request.header['x-auth']) {
 			return reply.response({

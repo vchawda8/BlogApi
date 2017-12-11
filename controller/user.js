@@ -1,60 +1,58 @@
 /**
  * @author Vishal Chawda
- *
- * controller for user related actions
- * register
- * login
- * logout
+ *@description controller for user related actions register, login, logout
  */
 
 //require user model
 const User = require('./../model/user');
 
 /**
- * for validating and registering a new user
+ * @description validating and registering a new user fom object
+ * @param {object} user object
+ * @param {object} reply object
  *
- * @param {*} user object
- * @param {*} reply object
- *
+ * @returns reply object with as response to the api called
  */
-var register = (user, reply) => {
-	return User.registerUser(user)
-		.then((result) => {
-			return reply.response({
-				user: {
-					id: result._id,
-					fullName: result.fullName
-				}
-			}).header('x-auth', result.token);
-		})
-		.catch((e) => {
-			return reply.response({
-				error: e.message
-			}).code(422);
-		});
+var register = async(user, reply) => {
+	let result;
+	try {
+		result = await User.registerUser(user);
+		return reply.response({
+			user: {
+				id      : result._id,
+				fullName: result.fullName
+			}
+		}).header('x-auth', result.token);
+	} catch (error) {
+		return reply.response({
+			error: error.message
+		}).code(422);
+	}
 };
 
 /**
- * for checking if a user exist and log them in if password matches
+ * @description checking if a user exist and log them in if password matches
  *
- * @param {*} user
- * @param {*} reply
+ * @param {object} user
+ * @param {object} reply
+ *
+ * @returns reply object with as response to the api called with a token set in header
  */
-var login = (user, reply) => {
-	return User.loginUser(user)
-		.then((result) => {
-			return reply.response({
-				user: {
-					id: result._id,
-					fullName: result.fullName
-				}
-			}).header('x-auth', result.token);
-		})
-		.catch((e) => {
-			return reply.response({
-				error: e
-			}).code(401);
-		});
+var login = async(user, reply) => {
+	let result;
+	try {
+		result = await User.loginUser(user);
+		return reply.response({
+			user: {
+				id      : result._id,
+				fullName: result.fullName
+			}
+		}).header('x-auth', result.token);
+	} catch (error) {
+		return reply.response({
+			error: e
+		}).code(401);
+	}
 };
 
 module.exports = {

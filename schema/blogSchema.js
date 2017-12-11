@@ -1,7 +1,3 @@
-import {
-  required
-} from '../../../../../../home/vishal/.cache/typescript/2.6/node_modules/@types/joi';
-
 /**
  * @author Vishal Chawda
  *
