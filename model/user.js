@@ -18,7 +18,11 @@ var registerUser = (user) => {
 		newUser.save()
 			.then((result) => {
 				var token = getToken(result._id);
-				resolve([result, token]);
+				resolve({
+					_id: result._id,
+					fullName: result.fullName,
+					token
+				});
 			})
 			.catch((e) => {
 				reject(e);
@@ -46,7 +50,11 @@ var loginUser = (user) => {
 
 				if (bcrypt.compareSync(user.password, result.password)) {
 					var token = getToken(result._id);
-					resolve([result, token]);
+					resolve({
+						_id: result._id,
+						fullName: result.fullName,
+						token
+					});
 				} else {
 					reject({
 						error: "username or password do not match"

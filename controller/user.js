@@ -20,7 +20,12 @@ const User = require('./../model/user');
 var register = (user, reply) => {
 	return User.registerUser(user)
 		.then((result) => {
-			return reply.response(result);
+			return reply.response({
+				user: {
+					id: result._id,
+					fullName: result.fullName
+				}
+			}).header('x-auth', result.token);
 		})
 		.catch((e) => {
 			return reply.response({
@@ -40,10 +45,10 @@ var login = (user, reply) => {
 		.then((result) => {
 			return reply.response({
 				user: {
-					id: result[0]._id,
-					fullName: result[0].fullName
+					id: result._id,
+					fullName: result.fullName
 				}
-			}).header('x-auth', result[1]);
+			}).header('x-auth', result.token);
 		})
 		.catch((e) => {
 			return reply.response({
