@@ -78,21 +78,51 @@ describe('User Api /users', () => {
 		 * @description it should give a success response with token in header as all valid credentials are provided
 		 */
 		it('Should successfully login user', (done) => {
-			done()
+			let userData = {
+				user: {
+					email   : "vchawda8@gmail.com",
+					password: "newpasswd"
+				}
+			}
+
+			request(app.listener)
+				.post('/users/login')
+				.send(userData)
+				.expect(200)
+				.expect((res) => {
+					expect(res.header['x-auth']).toExist
+					expect(res.body.user).toExist
+					expect(res.body.user._id).toExist
+				})
+				.end(done)
 		})
 
 		/**
 		 * @description it should give a 401 error as invalid credentials are provided
 		 */
 		it('Should return with 401 error', (done) => {
-			done()
+			let userData = {
+				user: {
+					email   : "vchawda8@gmail.com",
+					password: "newpsswd"
+				}
+			}
+
+			request(app.listener)
+				.post('/users/login')
+				.send(userData)
+				.expect(401)
+				.end(done)
 		})
 
 		/**
 		 * @description it should give a 400 error as not data is provided
 		 */
 		it('should return with 400 error', (done) => {
-			done()
+			request(app.listener)
+				.post('/users/login')
+				.expect(400)
+				.end(done)
 		})
 	})
 })

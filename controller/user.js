@@ -50,7 +50,7 @@ var login = async(user, reply) => {
 		}).header('x-auth', result.token);
 	} catch (error) {
 		return reply.response({
-			error: e
+			error: error
 		}).code(401);
 	}
 };

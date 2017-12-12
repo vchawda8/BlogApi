@@ -36,8 +36,8 @@ const userRoutes = [{
 				user: Joi.object({
 					email   : Joi.required(),
 					password: Joi.string().min(6).required()
-				})
-			}).allow(null)
+				}).required()
+			})
 		}
 	},
 	handler: (request, reply) => {
