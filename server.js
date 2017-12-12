@@ -31,6 +31,6 @@ async function start() {
 	console.log('Server running at:', server.info.uri);
 };
 
-module.exports = server;
-
 start();
+
+module.exports = server;

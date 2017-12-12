@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt')
 const Jwt    = require('jsonwebtoken')
 
 //require user schema
-const User     = require('./../schema/userSchema')
+const User     = require('./../schema/user')
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
