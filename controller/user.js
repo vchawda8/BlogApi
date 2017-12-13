@@ -61,11 +61,18 @@ var login = async(user, reply) => {
 	}
 };
 
-var logout = async(res, reply) => {
-
+var logout = async(token, reply) => {
+	let result;
+	try {
+		result = await User.logoutUser(token)
+		return reply.response(result)
+	} catch (error) {
+		return reply.response(error).code(400)
+	}
 }
 
 module.exports = {
 	register,
-	login
+	login,
+	logout
 };

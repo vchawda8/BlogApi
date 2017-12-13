@@ -4,17 +4,19 @@
  */
 
 //require 3rd party modules or inbuilt once
-const bcrypt = require('bcrypt')
-const Jwt    = require('jsonwebtoken')
-
-//require user schema
-const User     = require('./../schema/user')
+const bcrypt   = require('bcrypt')
+const Jwt      = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
+//require user schema
+const User = require('./../schema/user')
+
 /**
  * @description Registers new user object
+ *
  * @param 	{object} user
+ *
  * @returns {object} registered user with UID and token or an error
  */
 var registerUser = async(user) => {
@@ -38,31 +40,50 @@ var registerUser = async(user) => {
 }
 
 /**
- * login existing user by verifying email and password
+ * @description login existing user by verifying email and password
+ *
  * @param {object} user
+ *
  * @returns {object}	user on successful login or an error
  */
 var loginUser = async(user) => {
 	let result
 	let token
-	try {
-		result = await User.findOne({
-			email: user.email
-		})
-		if (bcrypt.compareSync(user.password, result.password)) {
-			token = await getToken(result._id)
-			return {
-				"_id"     : result._id,
-				"fullName": result.fullName,
-				"token"   : token
-			}
-		} else {
-			throw ({
-				error: "username or password do not match"
-			})
+
+	result = await User.findOne({
+		email: user.email
+	})
+
+	if (result !== null && bcrypt.compareSync(user.password, result.password)) {
+		token = await getToken(result._id)
+		return {
+			"_id"     : result._id,
+			"fullName": result.fullName,
+			"token"   : token
 		}
-	} catch (error) {
-		throw error
+	} else {
+		throw ({
+			error: "username or password do not match"
+		})
+	}
+}
+
+var logoutUser = async(token) => {
+	let result = await User.update({
+		$pull: {
+			tokens: {
+				token
+			}
+		}
+	})
+	if (result.nModified > 0) {
+		return ({
+			success: "token removed"
+		})
+	} else {
+		throw ({
+			error: "could not logout"
+		})
 	}
 }
 
@@ -74,13 +95,10 @@ var encryptPassword = async(password) => {
 
 var getToken = async(userId) => {
 	let token, result;
-	try {
-		result = await User.findById({
-			_id: userId
-		})
-	} catch (error) {
-		throw error
-	}
+
+	result = await User.findById({
+		_id: userId
+	})
 
 	token = Jwt.sign({
 		id    : userId,
@@ -96,5 +114,6 @@ var getToken = async(userId) => {
 
 module.exports = {
 	registerUser,
-	loginUser
+	loginUser,
+	logoutUser
 };

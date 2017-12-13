@@ -47,12 +47,17 @@ const userRoutes = [{
 	method : 'GET',
 	path   : '/users/logout',
 	handler: (request, reply) => {
-		if (!request.header['x-auth']) {
-			return reply.response({
-				error: "invalid request"
-			}).code(400);
+		var auth = request.headers['x-auth']
+
+		if (!auth) {
+			return reply
+				.response({
+					error: "Header is required"
+				})
+				.code(400);
 		}
-		return userController.register(request.payload.user, reply);
+
+		return userController.logout(auth, reply);
 	}
 }];
 
