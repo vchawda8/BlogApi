@@ -10,6 +10,8 @@ const expect  = require('expect');
 //require server
 const app = require('./../server');
 
+var token
+
 /**
  * @description for testing all users api
  */
@@ -90,6 +92,7 @@ describe('User Api /users', () => {
 				.send(userData)
 				.expect(200)
 				.expect((res) => {
+					token = res.header['x-auth']
 					expect(res.header['x-auth']).toExist
 					expect(res.body.user).toExist
 					expect(res.body.user._id).toExist
@@ -122,6 +125,36 @@ describe('User Api /users', () => {
 			request(app.listener)
 				.post('/users/login')
 				.expect(400)
+				.end(done)
+		})
+	})
+
+	/**
+	 * @description for testing logout api
+	 */
+	describe('GET /users/logout', () => {
+		it('should return a success message', (done) => {
+			request(app.listener)
+				.get('/users/logout')
+				.set({
+					'x-auth': token
+				})
+				.expect(200)
+				.end(done)
+		})
+		it('should return 400 error for invalid request', (done) => {
+			request(app.listener)
+				.get('/users/logout')
+				.expect(400)
+				.end(done)
+		})
+		it('should return a 422 error for invalid token', (done) => {
+			request(app.listener)
+				.get('/users/logout')
+				.set({
+					'x-auth': "kjdsfhjdsfdfhjdsfhkjdsfop378345789trekjgdfkjhgdfuhjt7845r89urewfkjhgre"
+				})
+				.expect(422)
 				.end(done)
 		})
 	})
