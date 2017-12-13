@@ -1,24 +1,20 @@
-//code author Vishal Chawda
+/**
+ * @author Vishal Chawda
+ * @description registering routes that will serve any users request
+ */
 
-//defining all routes for user
 const blogRoutes = [{
-    method: 'POST',
-    path: '/blog/register',
+    method: 'GET',
+    path: '/blog',
     handler: function (request, reply) {
-        return reply.response().code(400);
+        return reply.response().code(400)
     }
 }, {
-    method: 'POST',
-    path: '/blog/login',
+    method: 'GET',
+    path: '/blog/{blogId}',
     handler: function (request, reply) {
-        return reply.response().code(400);
+        return reply.response().code(400)
     }
-}, {
-    method: 'POST',
-    path: '/blog/logout',
-    handler: function (request, reply) {
-        return reply.response().code(400);
-    }
-}];
+}]
 
 module.exports = blogRoutes;

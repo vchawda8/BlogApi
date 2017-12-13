@@ -7,9 +7,12 @@
 const User = require('./../model/user');
 
 /**
+ * @function register registers user
+ *
  * @description validating and registering a new user fom object
- * @param {object} user object
- * @param {object} reply object
+ *
+ * @param {object} user object - {fullName, email, password}
+ * @param {object} reply object - response object from router
  *
  * @returns reply object with as response to the api called
  */
@@ -31,10 +34,13 @@ var register = async(user, reply) => {
 };
 
 /**
+ * @function login login a user if exist in the document
+ *
  * @description checking if a user exist and log them in if password matches
  *
- * @param {object} user
- * @param {object} reply
+ * @param {object} user object - {user : user object : {email:valid email used via registration, password : password used via registration }}
+ *
+ * @param {object} reply object - response object from router
  *
  * @returns reply object with as response to the api called with a token set in header
  */
@@ -54,6 +60,10 @@ var login = async(user, reply) => {
 		}).code(401);
 	}
 };
+
+var logout = async(res, reply) => {
+
+}
 
 module.exports = {
 	register,
