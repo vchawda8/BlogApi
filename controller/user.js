@@ -61,13 +61,23 @@ var login = async(user, reply) => {
 	}
 };
 
+/**
+ * @function logout
+ *
+ * @description will send the token to user model for deleting user token from the document
+ *
+ * @param {object} token
+ * @param {object} reply
+ *
+ * @returns {object} response as success or error with appropriate status
+ */
 var logout = async(token, reply) => {
 	let result;
 	try {
 		result = await User.logoutUser(token)
 		return reply.response(result)
 	} catch (error) {
-		return reply.response(error).code(400)
+		return reply.response(error).code(422)
 	}
 }
 
