@@ -6,6 +6,10 @@
 
 'use strict';
 
+
+/**
+ * @description For setting up environment if provided
+ */
 var env = process.env.NODE_ENV || 'development'
 
 if (env == 'development') {
