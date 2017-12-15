@@ -1,4 +1,7 @@
-//code Author Vishal Chawda
+/**
+ * @author Vishal Chawda
+ */
+
 
 //including mongoose library
 const mongoose = require('mongoose');
@@ -7,7 +10,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 //connect with mongoose database
-mongoose.connect('mongodb://localhost:27017/blogging', {
+mongoose.connect(process.env.MONGODB_URI, {
     useMongoClient: true
 });
 
