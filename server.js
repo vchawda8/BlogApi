@@ -16,9 +16,9 @@ if (env == 'development') {
 	process.env.MONGODB_URI = 'mongodb://localhost:27017/bloggingTest'
 }
 
-const Hapi = require('hapi');
+const Hapi = require('hapi')
 
-const routes = require('./router/routerConfig');
+const routes = require('./router/routerConfig')
 
 /**
  * @description crates server const which consist of host and port
@@ -26,12 +26,12 @@ const routes = require('./router/routerConfig');
 const server = Hapi.server({
 	host: 'localhost',
 	port: process.env.PORT
-});
+})
 
 /**
  * @description gets all routes used in
  */
-server.route(routes);
+server.route(routes)
 
 /**
  * @description starts the server also will provide any error if the server doesn't start
@@ -39,16 +39,16 @@ server.route(routes);
 async function start() {
 
 	try {
-		await server.start();
+		await server.start()
 	} catch (err) {
-		console.log(err);
-		process.exit(1);
+		console.log(err)
+		process.exit(1)
 	}
 
-	console.log('Server running at:', server.info.uri);
+	console.log('Server running at:', server.info.uri)
 
 };
 
 start();
 
-module.exports = server;
+module.exports = server
