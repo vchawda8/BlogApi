@@ -1,7 +1,7 @@
 /**
  * @author Vishal Chawda
  *
- * main server file which is responsible for starting server and listening to the client request
+ * @description main server file which is responsible for starting server and listening to the client request
  */
 
 'use strict';
@@ -20,15 +20,22 @@ const Hapi = require('hapi');
 
 const routes = require('./router/routerConfig');
 
-// Create a server with a host and port
+/**
+ * @description crates server const which consist of host and port
+ */
 const server = Hapi.server({
 	host: 'localhost',
 	port: process.env.PORT
 });
 
+/**
+ * @description gets all routes used in
+ */
 server.route(routes);
 
-// Start the server
+/**
+ * @description starts the server also will provide any error if the server doesn't start
+ */
 async function start() {
 
 	try {
@@ -39,6 +46,7 @@ async function start() {
 	}
 
 	console.log('Server running at:', server.info.uri);
+
 };
 
 start();
