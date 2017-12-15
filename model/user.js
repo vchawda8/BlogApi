@@ -22,20 +22,19 @@ const User = require('./../schema/user')
 var registerUser = async(user) => {
 
 	let result
+	let passwd
 	let newUser
 	let token
 
 	try {
 
-		user.password = await encryptPassword(user.password);
 		newUser       = new User(user)
+		newUser.password = await encryptPassword(user.password)
 		result        = await newUser.save()
-		token         = await getToken(result._id)
 
 		return {
 			"_id"     : result._id,
-			"fullName": result.fullName,
-			"token"   : token
+			"fullName": result.fullName
 		}
 
 	} catch (error) {
@@ -57,22 +56,30 @@ var loginUser = async(user) => {
 
 	let result
 	let token
+	let passwordTest
 
 	result = await User.findOne({
 		email: user.email
 	})
 
-	if (result !== null && bcrypt.compareSync(user.password, result.password)) {
+	passwordTest = await bcrypt.compare(user.password, result.password)
+
+	if (result !== null && passwordTest) {
+
 		token = await getToken(result._id)
+
 		return {
 			"_id"     : result._id,
 			"fullName": result.fullName,
 			"token"   : token
 		}
+
 	} else {
+
 		throw ({
 			error: "username or password do not match"
 		})
+
 	}
 
 }
@@ -83,7 +90,7 @@ var loginUser = async(user) => {
  * @description logs out a user by removing the token sent by the user via the api
  *
  * @param {string} token - token: string
- * 
+ *
  *@returns {object} will return success or error based on the termination of request
  */
 var logoutUser = async(token) => {
@@ -118,9 +125,12 @@ var logoutUser = async(token) => {
  * @returns {String} passwordHash
  */
 var encryptPassword = async(password) => {
+
 	let salt         = await bcrypt.genSalt(10)
 	let passwordHash = await bcrypt.hash(password, salt)
-	return passwordHash;
+
+	return passwordHash
+
 }
 
 /**
@@ -128,9 +138,9 @@ var encryptPassword = async(password) => {
  *
  * @description will generate a token by encrypting an object
  *
- * @param {String} userId - _id:string
+ * @param {String} userId - _id: string
  *
- * @returns {String} token - token:string(encrypted with signature)
+ * @returns {String} token - token: string(encrypted with signature)
  */
 var getToken = async(userId) => {
 
@@ -158,5 +168,6 @@ var getToken = async(userId) => {
 module.exports = {
 	registerUser,
 	loginUser,
-	logoutUser
+	logoutUser,
+	getToken
 };

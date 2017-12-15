@@ -1,24 +1,25 @@
 {
-  "name"       : "blogingapi",
-  "version"    : "1.0.0",
+  "name": "blogingapi",
+  "version": "1.0.0",
   "description": "Bloging Api with testing",
-  "main"       : "server.js",
-  "scripts"    : {
+  "main": "server.js",
+  "scripts": {
     "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha **/*.test.js"
   },
-  "author"      : "Vishal Chawda",
-  "license"     : "ISC",
+  "author": "Vishal Chawda",
+  "license": "ISC",
   "dependencies": {
-    "bcrypt"        : "*",
-    "hapi"          : "*",
+    "bcrypt": "*",
+    "hapi": "*",
     "hapi-auth-jwt2": "*",
-    "inert"         : "*",
-    "joi"           : "*",
-    "jsonwebtoken"  : "*",
-    "mongoose"      : "*"
+    "inert": "*",
+    "joi": "*",
+    "jsonwebtoken": "*",
+    "mongodb": "^3.0.0-rc0",
+    "mongoose": "*"
   },
-  "devDependencies":  {
+  "devDependencies": {
     "supertest": "*",
-    "expect"   : "*"
+    "expect": "*"
   }
 }

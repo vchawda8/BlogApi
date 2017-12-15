@@ -4,13 +4,49 @@
  */
 
 //require super test and expect for testing
-const request = require('supertest');
-const expect  = require('expect');
+const request = require('supertest')
+const expect  = require('expect')
+const Jwt     = require('jsonwebtoken');
+const {
+	ObjectId
+} = require('mongodb')
 
 //require server
-const app = require('./../server');
+const app       = require('./../server')
+const userModel = require('./../model/user')
+const User      = require('./../schema/user')
 
-var token
+var userId   = new ObjectId()
+const usersObj = [{
+	_id     : userId,
+	fullName: "Vishal Chawda",
+	email   : "test@raweng.com",
+	password: "testPasswd",
+	tokens  : [{
+		token: Jwt.sign({
+			id    : userId,
+			access: 'auth'
+		}, 'abc123'),
+		access: 'auth'
+	}]
+}]
+
+beforeEach((done) => {
+
+	console.log(usersObj)
+
+	User.remove({})
+		.then()
+		.catch((err) => {
+			console.log(err)
+			done(err)
+		})
+
+	userModel.registerUser(usersObj[0])
+	.then(() => done())
+	.catch((error) => done(error))
+
+})
 
 /**
  * @description for testing all users api
@@ -80,22 +116,24 @@ describe('User Api /users', () => {
 		 * @description it should give a success response with token in header as all valid credentials are provided
 		 */
 		it('Should successfully login user', (done) => {
+
 			let userData = {
 				user: {
-					email   : "vchawda8@gmail.com",
-					password: "newpasswd"
+					email   : "test@raweng.com",
+					password: "testPasswd"
 				}
 			}
-
+			console.log(userData);
 			request(app.listener)
 				.post('/users/login')
 				.send(userData)
 				.expect(200)
 				.expect((res) => {
-					token = res.header['x-auth']
+					console.log(res.body)
 					expect(res.header['x-auth']).toExist
 					expect(res.body.user).toExist
 					expect(res.body.user._id).toExist
+
 				})
 				.end(done)
 		})
@@ -137,7 +175,7 @@ describe('User Api /users', () => {
 			request(app.listener)
 				.get('/users/logout')
 				.set({
-					'x-auth': token
+					'x-auth': usersObj[0].tokens[0].token
 				})
 				.expect(200)
 				.end(done)

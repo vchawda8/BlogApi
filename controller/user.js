@@ -20,12 +20,13 @@ var register = async(user, reply) => {
 	let result;
 	try {
 		result = await User.registerUser(user);
+		token = await User.getToken(result._id)
 		return reply.response({
 			user: {
 				id      : result._id,
 				fullName: result.fullName
 			}
-		}).header('x-auth', result.token);
+		}).header('x-auth', token);
 	} catch (error) {
 		return reply.response({
 			error: error.message
