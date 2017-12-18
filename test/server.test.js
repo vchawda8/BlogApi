@@ -121,13 +121,11 @@ describe('User Api /users', () => {
 					password: "testPasswd"
 				}
 			}
-			console.log(userData);
 			request(app.listener)
 				.post('/users/login')
 				.send(userData)
 				.expect(200)
 				.expect((res) => {
-					console.log(res.body)
 					expect(res.header['x-auth']).toExist
 					expect(res.body.user).toExist
 					expect(res.body.user._id).toExist
@@ -173,24 +171,24 @@ describe('User Api /users', () => {
 			request(app.listener)
 				.get('/users/logout')
 				.set({
-					'x-auth': usersObj[0].tokens[0].token
+					'authorization': usersObj[0].tokens[0].token
 				})
 				.expect(200)
 				.end(done)
 		})
-		it('should return 400 error for invalid request', (done) => {
+		it('should return 401 error for invalid request', (done) => {
 			request(app.listener)
 				.get('/users/logout')
-				.expect(400)
+				.expect(401)
 				.end(done)
 		})
-		it('should return a 422 error for invalid token', (done) => {
+		it('should return a 401 error for invalid token', (done) => {
 			request(app.listener)
 				.get('/users/logout')
 				.set({
 					'x-auth': "kjdsfhjdsfdfhjdsfhkjdsfop378345789trekjgdfkjhgdfuhjt7845r89urewfkjhgre"
 				})
-				.expect(422)
+				.expect(401)
 				.end(done)
 		})
 	})

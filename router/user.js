@@ -9,7 +9,9 @@ const Joi = require('joi');
 //getting controllers
 const userController = require('./../controller/user');
 
-//defining all routes for user
+/**
+ * @description defining all routes for user actions
+ */
 const userRoutes = [{
 	method: 'POST',
 	path  : '/users/register',
@@ -47,15 +49,16 @@ const userRoutes = [{
 	method: 'GET',
 	path  : '/users/logout',
 	config: {
+		auth   : 'token',
 		handler: (request, reply) => {
-			var auth = request.headers['x-auth']
+			var auth = request.headers['authorization']
 
 			if (!auth) {
 				return reply
 					.response({
 						error: "Header is required"
 					})
-					.code(400);
+					.code(401);
 			}
 
 			return userController.logout(auth, reply);

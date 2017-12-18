@@ -165,17 +165,20 @@ var getToken = async(userId) => {
 
 }
 
-var validateToken = (token) => {
-
-	let decoded = Jwt.verify(token, 'abc123')
-	if(decoded){
-		console.log(decoded)
-		return decoded
-	}else{
-		throw ({error:"invalid token"})
-	}
-
-
+/**
+ * @function findByToken
+ *
+ * @description will fetch a user from collection ad return
+ *
+ * @param {string} token token-string
+ *
+ * @returns {Object} user
+ */
+var findByToken = async(token) => {
+	user = await User.findOne({
+		"tokens.token": token
+	})
+	return user
 }
 
 module.exports = {
@@ -183,5 +186,5 @@ module.exports = {
 	loginUser,
 	logoutUser,
 	getToken,
-	validateToken
+	findByToken
 };

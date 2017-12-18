@@ -12,17 +12,20 @@
 var env = process.env.NODE_ENV || 'development'
 
 if (env == 'development') {
-	process.env.PORT = 3000
+	process.env.PORT        = 3000
 	process.env.MONGODB_URI = 'mongodb://localhost:27017/blogging'
 } else if (env == 'test') {
-	process.env.PORT = 3000
+	process.env.PORT        = 3000
 	process.env.MONGODB_URI = 'mongodb://localhost:27017/bloggingTest'
 }
 
-const Hapi = require('hapi')
+const Hapi     = require('hapi')
 const authJwt2 = require('hapi-auth-jwt2')
 
 const routes = require('./router/routerConfig')
+const {
+	validate
+} = require('./authentication')
 
 /**
  * @description crates server const which consist of host and port
@@ -33,27 +36,36 @@ server.connection({
 	port: process.env.PORT
 })
 
-/**
- * @description gets all routes used in
- */
-server.route(routes)
 
-/**
- * @description starts the server also will provide any error if the server doesn't start
- */
-async function start() {
 
-	try {
-		await server.start()
-	} catch (err) {
-		console.log(err)
-		process.exit(1)
-	}
+const start = async() => {
 
-	console.log('Server running at:', server.info.uri)
+	await server.register(authJwt2)
 
-};
+	server.auth.strategy('token', 'jwt', {
+		key          : 'abc123',
+		validateFunc : validate,
+		verifyOptions: {
+			algorithms: ['HS256']
+		}
+	});
 
-start();
+	/**
+	 * @description gets all routes used in
+	 */
+	server.route(routes)
+
+	await server.start();
+
+	return server;
+}
+
+start()
+	.then((server) => console.log(`Server listening on ${server.info.uri}`))
+	.catch(err => {
+
+		console.error(err);
+		process.exit(1);
+	})
 
 module.exports = server
