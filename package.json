@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "*",
-    "hapi": "*",
-    "hapi-auth-jwt2": "*",
+    "hapi": "^16.6.2",
+    "hapi-auth-jwt2": "^7.3.0",
     "inert": "*",
     "joi": "*",
     "jsonwebtoken": "*",

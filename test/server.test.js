@@ -33,8 +33,6 @@ const usersObj = [{
 
 beforeEach((done) => {
 
-	console.log(usersObj)
-
 	User.remove({})
 		.then()
 		.catch((err) => {

@@ -44,21 +44,23 @@ const userRoutes = [{
 		return userController.login(request.payload.user, reply);
 	}
 }, {
-	method : 'GET',
-	path   : '/users/logout',
-	handler: (request, reply) => {
-		var auth = request.headers['x-auth']
+	method: 'GET',
+	path  : '/users/logout',
+	config: {
+		handler: (request, reply) => {
+			var auth = request.headers['x-auth']
 
-		if (!auth) {
-			return reply
-				.response({
-					error: "Header is required"
-				})
-				.code(400);
+			if (!auth) {
+				return reply
+					.response({
+						error: "Header is required"
+					})
+					.code(400);
+			}
+
+			return userController.logout(auth, reply);
 		}
-
-		return userController.logout(auth, reply);
 	}
-}];
+}]
 
 module.exports = userRoutes;

@@ -4,7 +4,6 @@
  * @description for connecting to mongodb and providing access to other schemas
  */
 
-
 //including mongoose library
 const mongoose = require('mongoose');
 

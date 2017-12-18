@@ -6,7 +6,6 @@
 
 'use strict';
 
-
 /**
  * @description For setting up environment if provided
  */
@@ -21,13 +20,15 @@ if (env == 'development') {
 }
 
 const Hapi = require('hapi')
+const authJwt2 = require('hapi-auth-jwt2')
 
 const routes = require('./router/routerConfig')
 
 /**
  * @description crates server const which consist of host and port
  */
-const server = Hapi.server({
+const server = new Hapi.Server()
+server.connection({
 	host: 'localhost',
 	port: process.env.PORT
 })

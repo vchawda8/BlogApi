@@ -28,9 +28,9 @@ var registerUser = async(user) => {
 
 	try {
 
-		newUser       = new User(user)
+		newUser          = new User(user)
 		newUser.password = await encryptPassword(user.password)
-		result        = await newUser.save()
+		result           = await newUser.save()
 
 		return {
 			"_id"     : result._id,
@@ -165,9 +165,23 @@ var getToken = async(userId) => {
 
 }
 
+var validateToken = (token) => {
+
+	let decoded = Jwt.verify(token, 'abc123')
+	if(decoded){
+		console.log(decoded)
+		return decoded
+	}else{
+		throw ({error:"invalid token"})
+	}
+
+
+}
+
 module.exports = {
 	registerUser,
 	loginUser,
 	logoutUser,
-	getToken
+	getToken,
+	validateToken
 };
