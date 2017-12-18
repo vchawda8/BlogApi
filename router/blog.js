@@ -1,20 +1,26 @@
 /**
  * @author Vishal Chawda
+ *
  * @description registering routes that will serve any users request
  */
 
+ const blog = require('./../controller/blog')
+
 const blogRoutes = [{
-    method: 'GET',
+    method: 'POST',
     path: '/blog',
-    handler: function (request, reply) {
-        return reply.response().code(400)
+    config:{
+        auth:'token',
+        handler: blog.addBlogPost
     }
 }, {
     method: 'GET',
+    path: '/blog',
+    handler:blog.getAllBlogPost
+}, {
+    method: 'GET',
     path: '/blog/{blogId}',
-    handler: function (request, reply) {
-        return reply.response().code(400)
-    }
+    handler:blog.getOneBlogPost
 }]
 
 module.exports = blogRoutes;
