@@ -1,32 +1,36 @@
 /**
  * @author Vishal Chawda
  *
- * contains schema for blog post
+ * @description contains schema for blog post
  */
 
 //including pre connected mongoose model
 const mongoose = require('./dbConfig');
 
 var blogSchema = mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    minlength: 1
+
+  blogTitle: {
+    type     : String,
+    required : true,
+    minlength: 3
   },
   content: {
-    type: String,
-    required: true,
-    minlength: 1
+    type     : String,
+    required : true,
+    minlength: 3
   },
-  bloggerId: {
-    type: Object,
+  author: {
+    type     : String,
+    required : true,
+    minlength: 3
+  },
+  createdAt: {
+    type    : String,
     required: true
   }
 
 });
 
-var blog = mongoose.model('blog', blogSchema);
+var Blog = mongoose.model('blog', blogSchema);
 
-module.exports = {
-  blog
-};
+module.exports = Blog;

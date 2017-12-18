@@ -1,5 +1,6 @@
 /**
  * @author Vishal Chawda
+ *
  * @description CRUD operations for User schema
  */
 
@@ -175,10 +176,19 @@ var getToken = async(userId) => {
  * @returns {Object} user
  */
 var findByToken = async(token) => {
+
 	user = await User.findOne({
 		"tokens.token": token
 	})
+
 	return user
+
+}
+
+var findById = async(userId) => {
+
+	return await User.findById(userId)
+
 }
 
 module.exports = {
@@ -186,5 +196,6 @@ module.exports = {
 	loginUser,
 	logoutUser,
 	getToken,
-	findByToken
+	findByToken,
+	findById
 };
