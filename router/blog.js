@@ -4,6 +4,8 @@
  * @description registering routes that will serve any users request
  */
 
+const Joi = require('joi');
+
 const blog = require('./../controller/blog')
 
 const blogRoutes = [{
@@ -12,9 +14,16 @@ const blogRoutes = [{
     path  : '/blog',
     config: {
 
+        validate: {
+            payload: Joi.object({
+                blog: Joi.object({
+                    blogTitle: Joi.required(),
+                    content  : Joi.required(),
+                }).required()
+            })
+        },
         auth   : 'token',
         handler: blog.addBlogPost
-
     }
 
 }, {

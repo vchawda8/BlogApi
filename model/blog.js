@@ -5,29 +5,28 @@
  */
 
 const Blog = require('./../schema/blog')
-const User = require('./user')
 
 /**
  * @function addBlog
  *
  * @description adds a blog to the document if everything is validated
  *
- * @param {Object} blog {blogTitle:string, content:string, createdAt:string}
- * @param {String} author author name
+ * @param {Object} blog {blogTitle:string, content:string, bloggerId:string, author:string, createdAt:string}
  *
  * @returns {Object} object of saved blog or error
  */
-var addBlog = async(blog, author) => {
+var addBlog = async(blog) => {
 
   let result, newBlog
 
   newBlog           = new Blog(blog)
-  newBlog.author    = author
   newBlog.createdAt = Math.floor((new Date).getTime() / 1000)
   result            = await newBlog.save()
 
-  return result;
-
+  if (!result.error)
+    return result
+  else
+    throw result.error
 }
 
 /**
@@ -60,4 +59,10 @@ var getOneBlog = async(blogId) => {
 
   return blog
 
+}
+
+module.exports = {
+  addBlog,
+  getAllBlog,
+  getOneBlog
 }
