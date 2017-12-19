@@ -21,14 +21,14 @@ var register = async(user, reply) => {
 	try {
 		result = await User.registerUser(user);
 		token = await User.getToken(result._id)
-		return reply.response({
+		return reply({
 			user: {
 				id      : result._id,
 				fullName: result.fullName
 			}
 		}).header('x-auth', token);
 	} catch (error) {
-		return reply.response({
+		return reply({
 			error: error.message
 		}).code(422);
 	}
@@ -49,14 +49,14 @@ var login = async(user, reply) => {
 	let result;
 	try {
 		result = await User.loginUser(user);
-		return reply.response({
+		return reply({
 			user: {
 				id      : result._id,
 				fullName: result.fullName
 			}
 		}).header('token', result.token);
 	} catch (error) {
-		return reply.response({
+		return reply({
 			error: error
 		}).code(401);
 	}
@@ -76,9 +76,9 @@ var logout = async(token, reply) => {
 	let result;
 	try {
 		result = await User.logoutUser(token)
-		return reply.response(result)
+		return reply(result)
 	} catch (error) {
-		return reply.response(error).code(422)
+		return reply(error).code(422)
 	}
 }
 

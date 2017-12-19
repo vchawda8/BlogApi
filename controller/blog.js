@@ -30,13 +30,13 @@ const addBlogPost = async(request, reply) => {
   try {
 
     result = await Blog.addBlog(blog)
-    return reply.response({
+    return reply({
       blog: result
     })
 
   } catch (error) {
 
-    return reply.response({
+    return reply({
       error: error.message
     }).code(422)
 
