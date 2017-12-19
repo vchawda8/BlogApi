@@ -4,9 +4,20 @@
  * @description responsible to get all request from blog router and perform actions required to full fill the request
  */
 
+//manually created module/s
 const Blog = require('./../model/blog')
 const User = require('./../model/user')
 
+/**
+ * @function addBlogPost
+ *
+ * @description adding a blog post and providing appropriate response
+ *
+ * @param {Object} request request made by user for post url
+ * @param {Object} reply appropriate response after processing of request
+ *
+ * @returns {Object} sends response to the request via reply
+ */
 const addBlogPost = async(request, reply) => {
 
   let user, blog, result
@@ -22,6 +33,7 @@ const addBlogPost = async(request, reply) => {
     return reply.response({
       blog: result
     })
+
   } catch (error) {
 
     return reply.response({

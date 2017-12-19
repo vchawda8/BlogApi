@@ -4,10 +4,15 @@
  * @description registering routes that will serve any users request
  */
 
+ //third party or in-built module/s
 const Joi = require('joi');
 
+//manually created module/s
 const blog = require('./../controller/blog')
 
+/**
+ * @description routes required to add and view all blog post
+ */
 const blogRoutes = [{
 
     method: 'POST',
