@@ -9,40 +9,40 @@ const mongoose = require('./dbConfig');
 
 var blogSchema = mongoose.Schema({
 
-  blogTitle: {
+	blogTitle: {
 
-    type     : String,
-    required : true,
-    minlength: 3
+		type     : String,
+		required : true,
+		minlength: 3
 
-  },
-  content: {
+	},
+	content: {
 
-    type     : String,
-    required : true,
-    minlength: 3
+		type     : String,
+		required : true,
+		minlength: 3
 
-  },
-  bloggerId: {
+	},
+	bloggerId: {
 
-    type     : String,
-    required : true,
-    minlength: 3
+		type     : String,
+		required : true,
+		minlength: 3
 
-  },
-  author: {
+	},
+	author: {
 
-    type     : String,
-    required : true,
-    minlength: 3
+		type     : String,
+		required : true,
+		minlength: 3
 
-  },
-  createdAt: {
+	},
+	createdAt: {
 
-    type     : String,
-    required : true,
-    minlength: 1
-  }
+		type     : String,
+		required : true,
+		minlength: 1
+	}
 
 });
 

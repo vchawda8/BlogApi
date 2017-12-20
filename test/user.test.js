@@ -6,75 +6,22 @@
 //require super test and expect for testing
 const request = require('supertest')
 const expect  = require('expect')
-const Jwt     = require('jsonwebtoken');
-const {
-	ObjectId
-} = require('mongodb')
 
 //require server
-const app       = require('./../server')
-const userModel = require('./../model/user')
-const User      = require('./../schema/user')
-const Blog      = require('./../schema/blog')
-const blogModel = require('./../model/blog')
+const app = require('./../server')
+const {usersObj,populate} = require('./factory')
 
-
-//user object for string into document
-var   userId   = new ObjectId()
-const usersObj = [{
-	_id     : userId,
-	fullName: "Vishal Chawda",
-	email   : "test@raweng.com",
-	password: "testPasswd",
-	tokens  : [{
-		token: Jwt.sign({
-			id    : userId,
-			access: 'auth'
-		}, 'abc123'),
-		access: 'auth'
-	}]
-}]
-
-//blog object for storing in database
-var   blogId   = new ObjectId()
-const blogPost = [{
-	_id      : blogId,
-	blogTitle: "demo post",
-	content  : "lorem ipsum",
-	author   : usersObj[0].fullName,
-	bloggerId: usersObj[0]._id.toHexString()
-}]
-
-beforeEach((done) => {
-
-	User.remove({})
-		.then(() => {
-			return userModel.registerUser(usersObj[0])
-		})
-		.then(() => {
-			return Blog.remove({})
-		}).then(() => {
-			return blogModel.addBlog(blogPost[0])
-		})
-		.then(() => {
-			done()
-		})
-		.catch((err) => {
-			console.log(err)
-			done(err)
-		})
-
-})
+beforeEach(populate)
 
 /**
  * @description for testing all users api
  */
-describe('User Api /users', () => {
+describe('test cases for user api', () => {
 
 	/**
 	 * @description for testing register api
 	 */
-	describe('POST /users/register', () => {
+	describe('testing registration of new user', () => {
 
 		/**
 		 * @description it should give a 400 response for invalid request
@@ -139,7 +86,7 @@ describe('User Api /users', () => {
 	/**
 	 * @description for testing login api
 	 */
-	describe('POST /users/login', () => {
+	describe('testing login of existing user', () => {
 
 		/**
 		 * @description it should give a success response with token in header as all valid credentials are provided
@@ -204,7 +151,7 @@ describe('User Api /users', () => {
 	/**
 	 * @description for testing logout api
 	 */
-	describe('GET /users/logout', () => {
+	describe('testing of logout of a user', () => {
 
 		/**
 		 * @description it should return a success response with removed token
@@ -248,102 +195,4 @@ describe('User Api /users', () => {
 
 })
 
-/**
- * @description for testing of blog api
- */
-describe('Blog API /blog', () => {
-
-	/**
-	 * @description tests for saving a blog posts
-	 */
-	describe('POST /blog', () => {
-
-		/**
-		 * @description it should successfully create a blog post
-		 */
-		it('should return an object of successfully created blog', (done) => {
-
-			let blog = {
-				blog: {
-					blogTitle: "demo",
-					content  : "lorem ipsum"
-				}
-			}
-
-			request(app.listener)
-				.post('/blog')
-				.set({
-					'authorization': usersObj[0].tokens[0].token
-				})
-				.send(blog)
-				.expect(200)
-				.expect((res) => {
-					expect(res.body.blog._id).toExist
-					expect(res.body.blog.blogTitle).toBe(blog.blog.blogTitle)
-					expect(res.body.blog.content).toBe(blog.blog.content)
-				})
-				.end(done)
-
-		})
-
-		/**
-		 * @description it should give a 401 error for no token provided
-		 */
-		it('should give a 401 error', (done) => {
-
-			let blog = {
-				blog: {
-					blogTitle: "demo",
-					content  : "lorem ipsum"
-				}
-			}
-
-			request(app.listener)
-				.post('/blog')
-				.send(blog)
-				.expect(401)
-				.end(done)
-
-		})
-
-		/**
-		 * @description it should give a 400 error as no data is sent
-		 */
-		it('should give a 400 error', (done) => {
-
-			request(app.listener)
-				.post('/blog')
-				.set({
-					'authorization': usersObj[0].tokens[0].token
-				})
-				.expect(400)
-				.end(done)
-
-		})
-
-		/**
-		 * @description it should give 422 error for validation of data
-		 */
-		it('should give a 422 error', (done) => {
-
-			let blog = {
-				blog: {
-					blogTitle: "de",
-					content  : "lo"
-				}
-			}
-
-			request(app.listener)
-				.post('/blog')
-				.set({
-					'authorization': usersObj[0].tokens[0].token
-				})
-				.send(blog)
-				.expect(422)
-				.end(done)
-
-		})
-
-	})
-
-})
+module.exports = usersObj[0].tokens[0].token

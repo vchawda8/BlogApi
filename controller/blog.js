@@ -20,40 +20,97 @@ const User = require('./../model/user')
  */
 const addBlogPost = async(request, reply) => {
 
-  let user, blog, result
+	let user, blog, result
 
-  user           = await User.findByToken(request.headers.authorization)
-  blog           = request.payload.blog
-  blog.author    = user.fullName
-  blog.bloggerId = user._id.toHexString()
+	user           = await User.findByToken(request.headers.authorization)
+	blog           = request.payload.blog
+	blog.author    = user.fullName
+	blog.bloggerId = user._id.toHexString()
 
-  try {
+	try {
 
-    result = await Blog.addBlog(blog)
-    return reply({
-      blog: result
-    })
+		result = await Blog.addBlog(blog)
 
-  } catch (error) {
+		return reply({
+			blog: result
+		})
 
-    return reply({
-      error: error.message
-    }).code(422)
+	} catch (error) {
 
-  }
+		return reply({
+				error: error.message
+			})
+			.code(422)
+
+	}
 
 }
 
+/**
+ * @function getAllBlogPost
+ *
+ * @description will get all blog posts from the document and return it to user
+ *
+ * @param {Object} request users request object consisting all request related information
+ * @param {Function} reply reply function which is used to response to user after processing request
+ *
+ * @returns {Object} will return all blog posts present in the document
+ */
 const getAllBlogPost = async(request, reply) => {
 
+	try {
+
+		let blogs = await Blog.getAllBlog()
+
+		return reply(blogs)
+
+	} catch (error) {
+
+		return reply({
+				error: error.message
+			})
+			.code(422)
+
+	}
+
 }
 
+/**
+ * @function getOneBlogPost
+ *
+ * @description will get a single blog post from the document and return it to user
+ *
+ * @param {Object} request users request object consisting all request related information
+ * @param {Function} reply reply function which is used to response to user after processing request
+ *
+ * @returns {Object} will return a single blog post present in the document
+ */
 const getOneBlogPost = async(request, reply) => {
+
+	try {
+
+		let blog = await Blog.getOneBlog(request.params.blogId)
+
+		if (blog.blog) {
+			return reply(blog)
+		} else {
+			return reply({
+				error: "not found"
+			}).code(404)
+		}
+
+	} catch (error) {
+
+		return reply({
+			error: error.message
+		}).code(422)
+
+	}
 
 }
 
 module.exports = {
-  addBlogPost,
-  getAllBlogPost,
-  getOneBlogPost
+	addBlogPost,
+	getAllBlogPost,
+	getOneBlogPost
 }

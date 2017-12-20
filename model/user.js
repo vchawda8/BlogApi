@@ -33,15 +33,15 @@ var registerUser = async(user) => {
 		newUser.password = await encryptPassword(user.password)
 		result           = await newUser.save()
 
-		return {
-			"_id"     : result._id,
-			"fullName": result.fullName
-		}
-
 	} catch (error) {
 
 		throw error;
 
+	}
+
+	return {
+		"_id"     : result._id,
+		"fullName": result.fullName
 	}
 
 }

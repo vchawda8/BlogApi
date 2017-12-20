@@ -17,16 +17,22 @@ const Blog = require('./../schema/blog')
  */
 var addBlog = async(blog) => {
 
-  let result, newBlog
+	let result, newBlog
 
-  newBlog           = new Blog(blog)
-  newBlog.createdAt = Math.floor((new Date).getTime() / 1000)
-  result            = await newBlog.save()
+	try {
 
-  if (!result.error)
-    return result
-  else
-    throw result.error
+		newBlog           = new Blog(blog)
+		newBlog.createdAt = Math.floor((new Date).getTime() / 1000)
+		result            = await newBlog.save()
+
+		return result
+
+	} catch (error) {
+
+		return error
+
+	}
+
 }
 
 /**
@@ -38,9 +44,11 @@ var addBlog = async(blog) => {
  */
 var getAllBlog = async() => {
 
-  let blogs = await Blog.find()
+	let blogs = await Blog.find()
 
-  return blogs
+	return {
+		blogs
+	}
 
 }
 
@@ -55,14 +63,16 @@ var getAllBlog = async() => {
  */
 var getOneBlog = async(blogId) => {
 
-  let blog = await Blog.findById(blogId)
+	let blog = await Blog.findById(blogId)
 
-  return blog
+	return {
+		blog
+	}
 
 }
 
 module.exports = {
-  addBlog,
-  getAllBlog,
-  getOneBlog
+	addBlog,
+	getAllBlog,
+	getOneBlog
 }
