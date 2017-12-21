@@ -28,8 +28,6 @@ const addBlogPost = async(request, reply) => {
 	blog           = request.payload.blog
 	blog.bloggerId = new ObjectId(user._id)
 
-	console.log(blog)
-
 	try {
 
 		result = await Blog.addBlog(blog)

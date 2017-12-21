@@ -1,4 +1,5 @@
-const Jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
+const Jwt    = require('jsonwebtoken');
 const {
   ObjectId
 } = require('mongodb')
@@ -35,12 +36,42 @@ const blogPost = [{
 }]
 
 var populateUser = async() => {
+  let salt, passwordHash
+  var newUser, result
 
   try {
-    await Users.deleteMany()
-    newUser = await Users.insert(usersObj)
 
-    return newUser.ops[0]
+    await Users.deleteMany()
+
+    salt         = await bcrypt.genSalt(10)
+    passwordHash = await bcrypt.hash(usersObj[0].password, salt)
+
+    newUser = Object.assign({}, usersObj[0], {
+      password: passwordHash
+    })
+
+    result = await Users.insert(newUser)
+
+    return result.ops[0]
+
+  } catch (error) {
+
+    throw error
+
+  }
+
+}
+
+var populateBlog = async()=>{
+  let result
+
+  try {
+
+    await Blogs.deleteMany()
+
+    result = Blogs.insert(blogPost[0])
+
+    return result.ops[0]
 
   } catch (error) {
 
@@ -54,5 +85,6 @@ var populateUser = async() => {
 module.exports = {
   usersObj,
   blogPost,
-  populateUser
+  populateUser,
+  populateBlog
 }

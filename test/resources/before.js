@@ -5,8 +5,8 @@ mongoose.Promise = Promise
 var db = mongoose.createConnection('localhost', 'bloggingTest');
 
 //drop database
-db.dropDatabase().then(() => {
-    console.log('removed')
+db.dropDatabase()
+.then(() => {
 }).catch((err) => {
     console.log(err)
 })

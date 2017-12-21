@@ -51,7 +51,7 @@ describe('test cases for user api', () => {
 			request(app.listener)
 				.post('/users/register')
 				.send(userData)
-				// .expect(200)
+				.expect(200)
 				.expect((res) => {
 					expect(res.header['x-auth']).toExist
 					expect(res.fullName).toBe(userData.fullName)
@@ -103,9 +103,8 @@ describe('test cases for user api', () => {
 			request(app.listener)
 				.post('/users/login')
 				.send(userData)
-				// .expect(200)
+				.expect(200)
 				.expect((res) => {
-					console.log(res.body)
 					expect(res.header['x-auth']).toExist
 					expect(res.body.user).toExist
 					expect(res.body.user._id).toExist

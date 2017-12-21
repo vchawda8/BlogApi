@@ -29,7 +29,7 @@ var addBlog = async(blog) => {
 
 	} catch (error) {
 
-		return error
+		throw error
 
 	}
 
