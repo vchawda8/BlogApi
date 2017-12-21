@@ -136,4 +136,24 @@ describe('test cases for blog API', () => {
     })
   })
 
+  describe('Test case for getting single blog post',()=>{
+    it('should return a single blog post present in document',(done)=>{
+      request(app.listener)
+      .get('/blog/'+blogPost._id)
+      .expect(200)
+      .expect((res)=>{
+        expect(res.body.blog).toExist
+        expect(typeof res.body.blog).toBe('object')
+      })
+      .end(done)
+    })
+
+    it('should return 404 error for invalid id',(done)=>{
+      request(app.listener)
+      .get('/blog/5a3b8cdd35990f13ee154abf')
+      .expect(404)
+      .end(done)
+    })
+  })
+
 })

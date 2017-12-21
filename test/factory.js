@@ -56,7 +56,7 @@ var populateBlog = async() => {
     newBlog = Object.assign({}, blogPost, {
       blogger: user._id
     })
-    result = await Blogs.insert(blogPost)
+    result = await Blogs.insert(newBlog)
     return {
       usersObj: user,
       blogPost: result.ops[0]

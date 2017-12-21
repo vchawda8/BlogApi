@@ -26,7 +26,7 @@ const addBlogPost = async(request, reply) => {
 
 	user           = await User.findByToken(request.headers.authorization)
 	blog           = request.payload.blog
-	blog.bloggerId = new ObjectId(user._id)
+	blog.blogger = user._id
 
 	try {
 
