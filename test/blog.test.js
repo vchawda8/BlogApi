@@ -13,10 +13,10 @@ const {
   populateBlog
 } = require('./factory')
 
-var result,blogPost,usersObj
+var result, blogPost, usersObj
 
-beforeEach(async () => {
-  result = await populateBlog()
+beforeEach(async() => {
+  result   = await populateBlog()
   blogPost = result.blogPost
   usersObj = result.usersObj
 })
@@ -24,7 +24,7 @@ beforeEach(async () => {
 /**
  * @description for testing of blog api
  */
-describe('test cases for blog API', () => {
+describe('Test cases for blog API', () => {
 
   /**
    * @description tests for saving a blog posts
@@ -122,7 +122,14 @@ describe('test cases for blog API', () => {
 
   })
 
+  /**
+   * @description test cases for retrieving all blog posts
+   */
   describe('Test case for getting all blog post', () => {
+
+    /**
+     * @description test case for getting all blog post successfully
+     */
     it('should return all blog posts present in document', (done) => {
       request(app.listener)
         .get('/blog')
@@ -131,28 +138,40 @@ describe('test cases for blog API', () => {
           let blogs = res.body.blogs
           expect(blogs).toExist
           expect(typeof blogs).toBe('object')
+          expect(blogs[0].blogger.fullName).toBe(usersObj.fullName)
         })
         .end(done)
     })
   })
 
-  describe('Test case for getting single blog post',()=>{
-    it('should return a single blog post present in document',(done)=>{
+  /**
+   * @description Test cases for getting a single blog post
+   */
+  describe('Test case for getting single blog post', () => {
+
+    /**
+     * @description test case for successfully returning a blog post
+     */
+    it('should return a single blog post present in document', (done) => {
       request(app.listener)
-      .get('/blog/'+blogPost._id)
-      .expect(200)
-      .expect((res)=>{
-        expect(res.body.blog).toExist
-        expect(typeof res.body.blog).toBe('object')
-      })
-      .end(done)
+        .get('/blog/' + blogPost._id)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.blog).toExist
+          expect(typeof res.body.blog).toBe('object')
+          expect(res.body.blog.blogger.fullName).toBe(usersObj.fullName)
+        })
+        .end(done)
     })
 
-    it('should return 404 error for invalid id',(done)=>{
+    /**
+     * @description test case for generating an error
+     */
+    it('should return 404 error for invalid id', (done) => {
       request(app.listener)
-      .get('/blog/5a3b8cdd35990f13ee154abf')
-      .expect(404)
-      .end(done)
+        .get('/blog/5a3b8cdd35990f13ee154abf')
+        .expect(404)
+        .end(done)
     })
   })
 

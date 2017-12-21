@@ -44,7 +44,7 @@ var addBlog = async(blog) => {
  */
 var getAllBlog = async() => {
 
-	let blogs = await Blog.find().populate('blogger').exec()
+	let blogs = await Blog.find().populate('blogger', ['fullName']).exec()
 
 	return {
 		blogs
@@ -63,7 +63,7 @@ var getAllBlog = async() => {
  */
 var getOneBlog = async(blogId) => {
 
-	let blog = await Blog.findById(blogId).populate('blogger').exec()
+	let blog = await Blog.findById(blogId).populate('blogger', ['fullName']).exec()
 
 	return {
 		blog
