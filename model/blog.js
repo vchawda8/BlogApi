@@ -71,8 +71,16 @@ var getOneBlog = async(blogId) => {
 
 }
 
+var findByBlogger = async(userId)=>{
+	let blogs = await Blog.find({blogger:userId}).populate('blogger',['fullName']).exec()
+	return{
+		blogs
+	}
+}
+
 module.exports = {
 	addBlog,
 	getAllBlog,
-	getOneBlog
+	getOneBlog,
+	findByBlogger
 }

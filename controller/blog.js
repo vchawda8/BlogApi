@@ -4,7 +4,9 @@
  * @description responsible to get all request from blog router and perform actions required to full fill the request
  */
 
- const{ObjectId} = require('mongodb')
+const {
+	ObjectId
+} = require('mongodb')
 
 //manually created module/s
 const Blog = require('./../model/blog')
@@ -24,8 +26,8 @@ const addBlogPost = async(request, reply) => {
 
 	let user, blog, result
 
-	user           = await User.findByToken(request.headers.authorization)
-	blog           = request.payload.blog
+	user         = await User.findByToken(request.headers.authorization)
+	blog         = request.payload.blog
 	blog.blogger = user._id
 
 	try {
@@ -87,11 +89,8 @@ const getAllBlogPost = async(request, reply) => {
  * @returns {Object} will return a single blog post present in the document
  */
 const getOneBlogPost = async(request, reply) => {
-
 	try {
-
 		let blog = await Blog.getOneBlog(request.params.blogId)
-
 		if (blog.blog) {
 			return reply(blog)
 		} else {
@@ -99,19 +98,27 @@ const getOneBlogPost = async(request, reply) => {
 				error: "not found"
 			}).code(404)
 		}
-
 	} catch (error) {
-
 		return reply({
 			error: error.message
 		}).code(422)
-
 	}
+}
 
+const getMyBlog = async(request, reply) => {
+	try {
+		let token = request.headers.authorization
+		let user  = await User.findByToken(token)
+		let blogs = await Blog.findByBlogger(user._id)
+		return reply(blogs)
+	} catch (error) {
+		return reply({error:error.message}).code(422)
+	}
 }
 
 module.exports = {
 	addBlogPost,
 	getAllBlogPost,
-	getOneBlogPost
+	getOneBlogPost,
+	getMyBlog
 }
