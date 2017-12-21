@@ -105,6 +105,16 @@ const getOneBlogPost = async(request, reply) => {
 	}
 }
 
+/**
+ * @function getMyBlog
+ *
+ * @description fetch blogs related to a specific user and return them if found
+ *
+ * @param {Object} request users request object consisting all request related information
+ * @param {Function} reply reply function which is used to response to user after processing request
+ *
+ * @returns {Object} reply with response can be an error if request was not full filled
+ */
 const getMyBlog = async(request, reply) => {
 	try {
 		let token = request.headers.authorization

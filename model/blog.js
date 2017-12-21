@@ -71,6 +71,15 @@ var getOneBlog = async(blogId) => {
 
 }
 
+/**
+ * @function findByBlogger
+ *
+ * @description gets all blogs posted by a user and return it
+ *
+ * @param {ObjectId} userId userId-objectId of user who's id are to be fetched
+ *
+ * @returns {Object} an object of array which consist of all blogs
+ */
 var findByBlogger = async(userId)=>{
 	let blogs = await Blog.find({blogger:userId}).populate('blogger',['fullName']).exec()
 	return{
