@@ -24,6 +24,7 @@ const blogRoutes = [{
 				blog: Joi.object({
 					blogTitle: Joi.required(),
 					content  : Joi.required(),
+					author   : Joi.required()
 				}).required()
 			})
 		},

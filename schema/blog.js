@@ -25,7 +25,7 @@ var blogSchema = mongoose.Schema({
 	},
 	bloggerId: {
 
-		type     : String,
+		type     : Object,
 		required : true,
 		minlength: 3
 

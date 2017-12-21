@@ -1,12 +1,12 @@
-const Jwt     = require('jsonwebtoken');
+const Jwt = require('jsonwebtoken');
 const {
-	ObjectId
+  ObjectId
 } = require('mongodb')
 
-const userModel = require('./../model/user')
-const User      = require('./../schema/user')
-const Blog      = require('./../schema/blog')
-const blogModel = require('./../model/blog')
+const {
+  Users,
+  Blogs
+} = require('./resources/before')
 
 //user object for string into document
 var   userId   = new ObjectId()
@@ -30,33 +30,29 @@ const blogPost = [{
   _id      : blogId,
   blogTitle: "demo post",
   content  : "lorem ipsum",
-  author   : usersObj[0].fullName,
+  author   : "Vishal Chawda",
   bloggerId: usersObj[0]._id.toHexString()
 }]
 
-var populate = (done) => {
+var populateUser = async() => {
 
-  User.remove({})
-    .then(() => {
-      return userModel.registerUser(usersObj[0])
-    })
-    .then(() => {
-      return Blog.remove({})
-    }).then(() => {
-      return blogModel.addBlog(blogPost[0])
-    })
-    .then(() => {
-      done()
-    })
-    .catch((err) => {
-      console.log(err)
-      done(err)
-    })
+  try {
+    await Users.deleteMany()
+    newUser = await Users.insert(usersObj)
+
+    return newUser.ops[0]
+
+  } catch (error) {
+
+    throw error
+
+  }
+
 }
 
 
 module.exports = {
   usersObj,
   blogPost,
-  populate
+  populateUser
 }

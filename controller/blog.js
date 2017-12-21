@@ -4,6 +4,8 @@
  * @description responsible to get all request from blog router and perform actions required to full fill the request
  */
 
+ const{ObjectId} = require('mongodb')
+
 //manually created module/s
 const Blog = require('./../model/blog')
 const User = require('./../model/user')
@@ -24,8 +26,9 @@ const addBlogPost = async(request, reply) => {
 
 	user           = await User.findByToken(request.headers.authorization)
 	blog           = request.payload.blog
-	blog.author    = user.fullName
-	blog.bloggerId = user._id.toHexString()
+	blog.bloggerId = new ObjectId(user._id)
+
+	console.log(blog)
 
 	try {
 

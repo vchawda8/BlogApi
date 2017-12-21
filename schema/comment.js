@@ -1,7 +1,7 @@
 /**
  * @author Vishal Chawda
  *
- * this file consist of comments given by the user
+ * @description this file consist of comments given by the user
  */
 
 //including pre connected mongoose model
@@ -9,18 +9,18 @@ const mongoose = require('./dbConfig');
 
 const commentSchema = mongoose.Schema({
   userId: {
-    type: Object,
+    type    : Object,
     required: true
   },
   blogId: {
-    type: Object,
+    type    : Object,
     required: true
   },
   like: {
     type: Boolean,
   },
   comment: {
-    type: String,
+    type     : String,
     minlength: 6
   }
 });
