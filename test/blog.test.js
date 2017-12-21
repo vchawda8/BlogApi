@@ -24,12 +24,12 @@ beforeEach(()=>{
 /**
  * @description for testing of blog api
  */
-describe('Blog API /blog', () => {
+describe('test cases for blog API', () => {
 
 	/**
 	 * @description tests for saving a blog posts
 	 */
-	describe('POST /blog', () => {
+	describe('Test case for adding a blog', () => {
 
 		/**
 		 * @description it should successfully create a blog post
