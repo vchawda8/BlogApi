@@ -119,10 +119,19 @@ const getMyBlog = async(request, reply) => {
 	try {
 		let token = request.headers.authorization
 		let user  = await User.findByToken(token)
-		let blogs = await Blog.findByBlogger(user._id)
-		return reply(blogs)
+		console.log(typeof user)
+		if (user!="" && user._id!=null) {
+			console.log('not empty')
+			let blogs = await Blog.findByBlogger(user._id)
+			return reply(blogs)
+		} else {
+			console.log('empty')
+			return reply()
+		}
 	} catch (error) {
-		return reply({error:error.message}).code(422)
+		return reply({
+			error: error.message
+		}).code(422)
 	}
 }
 

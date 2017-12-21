@@ -176,12 +176,14 @@ var getToken = async(userId) => {
  * @returns {Object} user
  */
 var findByToken = async(token) => {
-
-	user = await User.findOne({
-		"tokens.token": token
-	})
-
-	return user
+	try {
+		user = await User.findOne({
+			"tokens.token": token
+		})
+		return user
+	} catch (error) {
+		throw error
+	}
 
 }
 

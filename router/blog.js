@@ -49,8 +49,8 @@ const blogRoutes = [{
 	path   : '/blog/my',
 	config:{
 		auth   : 'token',
-	},
-	handler: blog.getMyBlog
+		handler: blog.getMyBlog
+	}
 
 }]
 

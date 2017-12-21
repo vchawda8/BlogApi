@@ -175,4 +175,45 @@ describe('Test cases for blog API', () => {
     })
   })
 
+  /**
+   * @description test cases for getting all blogs related to a specific user
+   */
+  describe('Test cases for getting all blog posts related to the user', () => {
+    it('should return all blogs related to a user', (done) => {
+      request(app.listener)
+        .get('/blog/my')
+        .set({
+          'authorization': usersObj.tokens[0].token
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.blogs).toExist
+          expect(typeof res.body.blogs).toBe('object')
+          expect(res.body.blogs[0].blogger._id.toString()).toBe(usersObj._id.toHexString())
+        })
+        .end(done)
+    })
+
+    it('should return a 401 error for invalid token', (done) => {
+      request(app.listener)
+        .get('/blog/my')
+        .expect(401)
+        .end(done)
+    })
+
+    it('should return a blank body', (done) => {
+      request(app.listener)
+        .get('/blog/my')
+        .set({
+          'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhM2I4Y2Q0MzU5OTBmMTBlZTE1NGFiZCIsImFjY2VzcyI6ImF1dGgiLCJpYXQiOjE1MTM4NTIxMTZ9.vfq88hwLJP4IeaG94SN3dJX_O7Qohut88WNqV7elYXY'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.blogs).toExist
+        })
+        .end(done)
+        done()
+    })
+  })
+
 })
