@@ -8,13 +8,10 @@
 const mongoose = require('./dbConfig');
 
 var blogSchema = mongoose.Schema({
-
 	blogTitle: {
-
 		type     : String,
 		required : true,
 		minlength: 3
-
 	},
 	content: {
 
@@ -23,11 +20,10 @@ var blogSchema = mongoose.Schema({
 		minlength: 3
 
 	},
-	bloggerId: {
+	blogger: {
 
-		type     : Object,
-		required : true,
-		minlength: 3
+		type: mongoose.Schema.Types.ObjectId,
+		ref : 'users'
 
 	},
 	author: {

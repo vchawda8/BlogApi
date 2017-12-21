@@ -2,7 +2,7 @@
 
 	"blogTitle": {
 
-		"type"   : "String",
+		"type"     : "String",
 		"required" : true,
 		"minlength": 3
 
@@ -14,11 +14,10 @@
 		"minlength": 3
 
 	},
-	"bloggerId": {
+	"blogger": {
 
-		"type"     : "Object",
-		"required" : true,
-		"minlength": 3
+		"type": "mongoose.Schema.Types.ObjectId",
+		"ref" : "users"
 
 	},
 	"author": {

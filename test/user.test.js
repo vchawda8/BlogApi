@@ -9,15 +9,18 @@ const expect  = require('expect')
 
 //require server
 const app = require('./../server')
-const {usersObj,populateUser} = require('./factory')
-
-beforeEach(populateUser)
+const {
+	populateUser
+} = require('./factory')
+var userObj
 
 /**
  * @description for testing all users api
  */
 describe('test cases for user api', () => {
-
+	beforeEach(async()=>{
+		userObj = await populateUser()
+	})
 	/**
 	 * @description for testing register api
 	 */
@@ -161,7 +164,7 @@ describe('test cases for user api', () => {
 			request(app.listener)
 				.get('/users/logout')
 				.set({
-					'authorization': usersObj[0].tokens[0].token
+					'authorization': userObj.tokens[0].token
 				})
 				.expect(200)
 				.end(done)
@@ -194,5 +197,3 @@ describe('test cases for user api', () => {
 	})
 
 })
-
-module.exports = usersObj[0].tokens[0].token

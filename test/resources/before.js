@@ -1,14 +1,14 @@
-var mongoose = require('mongoose')
-mongoose.Promise = Promise
+var mongoose         = require('mongoose')
+    mongoose.Promise = Promise
 
 //connect to database
 var db = mongoose.createConnection('localhost', 'bloggingTest');
 
 //drop database
-db.dropDatabase()
-.then(() => {
+db.dropDatabase().then(() => {
+
 }).catch((err) => {
-    console.log(err)
+	console.log(err)
 })
 
 //fetch all schema from json
@@ -24,9 +24,8 @@ const Blogs = db.collection('blogs', blogSchema)
 
 //bind all models
 const allModels = {
-    Users,
-    Blogs
+	Users,
+	Blogs
 }
 
-//export object to factory
 module.exports = allModels
