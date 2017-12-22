@@ -19,10 +19,10 @@ var User = require('./model/user')
  */
 var validate = async(decodedToken, request, callback) => {
   var user = await User.findByToken(request.headers.authorization)
-  if (user._id == decodedToken.id) {
-    return callback(null, true)
-  } else {
+  if (user == '') {
     return callback(null, false)
+  } else {
+    return callback(null, true)
   }
 }
 

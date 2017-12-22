@@ -212,7 +212,6 @@ describe('Test cases for blog API', () => {
           expect(res.body.blogs).toExist
         })
         .end(done)
-        done()
     })
   })
 

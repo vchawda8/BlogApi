@@ -119,14 +119,13 @@ const getMyBlog = async(request, reply) => {
 	try {
 		let token = request.headers.authorization
 		let user  = await User.findByToken(token)
-		console.log(typeof user)
-		if (user!="" && user._id!=null) {
-			console.log('not empty')
+		if (user == null) {
+			return reply({
+				blog: []
+			})
+		} else {
 			let blogs = await Blog.findByBlogger(user._id)
 			return reply(blogs)
-		} else {
-			console.log('empty')
-			return reply()
 		}
 	} catch (error) {
 		return reply({
@@ -134,6 +133,7 @@ const getMyBlog = async(request, reply) => {
 		}).code(422)
 	}
 }
+
 
 module.exports = {
 	addBlogPost,
