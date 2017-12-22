@@ -1,4 +1,0 @@
-Today's task:
-1. testing and reporting for videolean api for a project (assigned by imran sir)
-2. completetion of blog Api
-3. test cases for blog module
