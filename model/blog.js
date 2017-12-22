@@ -80,9 +80,11 @@ var getOneBlog = async(blogId) => {
  *
  * @returns {Object} an object of array which consist of all blogs
  */
-var findByBlogger = async(userId)=>{
-	let blogs = await Blog.find({blogger:userId}).populate('blogger',['fullName']).exec()
-	return{
+var findByBlogger = async(userId) => {
+	let blogs = await Blog.find({
+		blogger: userId
+	}).populate('blogger', ['fullName']).exec()
+	return {
 		blogs
 	}
 }

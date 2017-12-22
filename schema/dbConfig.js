@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 
 //connect with mongoose database
 mongoose.connect(process.env.MONGODB_URI, {
-    useMongoClient: true
+	useMongoClient: true
 });
 
 //exporting mongoose for making it available for all models

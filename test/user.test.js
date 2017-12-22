@@ -18,7 +18,7 @@ var userObj
  * @description for testing all users api
  */
 describe('test cases for user api', () => {
-	beforeEach(async()=>{
+	beforeEach(async() => {
 		userObj = await populateUser()
 	})
 	/**

@@ -18,14 +18,14 @@ var User = require('./model/user')
  * @returns {Function} call back to the url after success
  */
 var validate = async(decodedToken, request, callback) => {
-  var user = await User.findByToken(request.headers.authorization)
-  if (user == '') {
-    return callback(null, false)
-  } else {
-    return callback(null, true)
-  }
+	var user = await User.findByToken(request.headers.authorization)
+	if (user == '') {
+		return callback(null, false)
+	} else {
+		return callback(null, true)
+	}
 }
 
 module.exports = {
-  validate
+	validate
 }

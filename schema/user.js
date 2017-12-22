@@ -10,33 +10,33 @@ const mongoose = require('./dbConfig');
 //define document schema for user table
 const userSchema = mongoose.Schema({
 	email: {
-		type: String,
-		required: true,
-		trim: true,
+		type     : String,
+		required : true,
+		trim     : true,
 		minlength: 1,
-		unique: true,
-		validate:
+		unique   : true,
+		validate :
 			(value) => {
 				return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
 			}
 	},
 	password: {
-		type: String,
-		required: true,
+		type     : String,
+		required : true,
 		minlength: 6
 	},
 	fullName: {
-		type: String,
-		required: true,
+		type     : String,
+		required : true,
 		minlength: 5
 	},
 	tokens: [{
 		access: {
-			type: String,
+			type    : String,
 			required: true
 		},
 		token: {
-			type: String,
+			type    : String,
 			required: true
 		}
 	}]

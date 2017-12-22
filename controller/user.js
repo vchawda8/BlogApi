@@ -20,7 +20,7 @@ var register = async(user, reply) => {
 	let result;
 	try {
 		result = await User.registerUser(user);
-		token = await User.getToken(result._id)
+		token  = await User.getToken(result._id)
 		return reply({
 			user: {
 				id      : result._id,
