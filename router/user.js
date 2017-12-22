@@ -1,7 +1,7 @@
 /**
  * @author Vishal Chawda
- * @description file is responsible to registering route and sending response to the client
- * only communicates with controller
+ *
+ * @description file is responsible to registering route and sending response to the client only communicates with controller
  */
 
 const Joi = require('joi');

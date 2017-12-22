@@ -7,7 +7,9 @@
 //including pre connected mongoose model
 const mongoose = require('./dbConfig');
 
-//define document schema for user table
+/**
+ * @description define document schema for user table
+ */
 const userSchema = mongoose.Schema({
 	email: {
 		type     : String,
@@ -42,6 +44,9 @@ const userSchema = mongoose.Schema({
 	}]
 });
 
+/**
+ * @description creating user model using the schema
+ */
 const Users = mongoose.model('users', userSchema);
 
 module.exports = Users;

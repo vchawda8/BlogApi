@@ -1,3 +1,7 @@
+/**
+ * @author Vishal Chawda
+ * @description factory which is responsible for populating users and blogs
+ */
 const bcrypt = require('bcrypt')
 const Jwt    = require('jsonwebtoken');
 
@@ -20,6 +24,13 @@ const blogPost = {
 	author   : "Vishal Chawda"
 }
 
+/**
+ * @function populateUser
+ *
+ * @description removes any existing user and adds one new user to the user's collection
+ *
+ * @returns {Object} error or user object that is saved to the collection
+ */
 var populateUser = async() => {
 	let salt, passwordHash, token, user, tokens
 	var newUser, result
@@ -56,6 +67,13 @@ var populateUser = async() => {
 	}
 }
 
+/**
+ * @function populateBlog
+ * 
+ * @description empty user and blog collections and add a blog with the ref. of the user being created via populateUser function
+ * 
+ * @returns {Object, Object} user and blog object or error object if it occurs
+ */
 var populateBlog = async() => {
 	let result, newBlog
 	try {

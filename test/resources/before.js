@@ -1,3 +1,8 @@
+/**
+ * @author Vishal Chawda
+ *
+ * @description this file will run every time the test case is ran will drop the database and create a new with all collections defined in the json schema
+ */
 var mongoose         = require('mongoose')
     mongoose.Promise = Promise
 

@@ -7,6 +7,9 @@
 //including pre connected mongoose model
 const mongoose = require('./dbConfig');
 
+/**
+ * @description defining a schema for blog with validations and ref. of user who created it
+ */
 var blogSchema = mongoose.Schema({
 	blogTitle: {
 		type     : String,
@@ -42,6 +45,10 @@ var blogSchema = mongoose.Schema({
 
 });
 
+
+/**
+ * @description creating a model for blog using the blog schema
+ */
 var Blog = mongoose.model('blog', blogSchema);
 
 module.exports = Blog;
